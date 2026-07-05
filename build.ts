@@ -211,7 +211,11 @@ async function build() {
 	let revision = process.env.VER;
 	if (!revision) {
 		console.time("Getting git commit hash");
-		revision = child_process.execSync("git rev-parse HEAD").toString().trim();
+		try {
+			revision = child_process.execSync("git rev-parse HEAD").toString().trim();
+		} catch {
+			revision = "unknown";
+		}
 		await fs.writeFile(path.join(__dirname, "dist", "webpage", "getupdates"), revision);
 		console.timeEnd("Getting git commit hash");
 	}

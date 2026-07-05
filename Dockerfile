@@ -1,9 +1,9 @@
 FROM node:18-bullseye AS builder
 
 WORKDIR /devel
-RUN apt-get update ; apt-get upgrade -y ; apt-get install -y build-essential
+RUN apt-get update && apt-get upgrade -y && apt-get install -y build-essential git
 COPY . .
-RUN npm i ; npm run build
+RUN npm ci --legacy-peer-deps && npm run build
 
 FROM node:20-alpine
 
